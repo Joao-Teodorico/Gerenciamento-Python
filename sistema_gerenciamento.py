@@ -56,3 +56,22 @@ def buscar_cliente_por_nome(nome):
         print(f"Erro ao buscar cliente: {e}")
     finally:
         conexao.close()
+
+# Exemplo de uso:
+if _name_ == "_main_":
+    # Cadastrar um cliente (exemplo)
+    adicionar_cliente(
+        nome="João Silva",
+        email="joao.silva@email.com",
+        telefone="(83) 98765-4321",
+        endereco="Rua A, 123",
+        cidade="João Pessoa",
+        estado="PB",
+        cep="58000-000"
+    )
+
+    # Listar todos os clientes
+    listar_clientes()
+
+    # Buscar cliente por nome
+    buscar_cliente_por_nome("João")
