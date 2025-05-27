@@ -34,3 +34,25 @@ def adicionar_cliente(nome, email, telefone, endereco, cidade, estado, cep):
     finally:
         cursor.close()
         conexao.close()
+
+# Listar todos os clientes
+def listar_clientes():
+    try:
+        conexao = conectar_banco()
+        df = pd.read_sql("SELECT * FROM clientes", conexao)
+        print(df)
+    except Exception as e:
+        print(f"Erro ao listar clientes: {e}")
+    finally:
+        conexao.close()
+
+# Buscar cliente por nome
+def buscar_cliente_por_nome(nome):
+    try:
+        conexao = conectar_banco()
+        df = pd.read_sql(f"SELECT * FROM clientes WHERE nome LIKE '%{nome}%'", conexao)
+        print(df)
+    except Exception as e:
+        print(f"Erro ao buscar cliente: {e}")
+    finally:
+        conexao.close()
