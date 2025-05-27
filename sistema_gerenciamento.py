@@ -15,3 +15,22 @@ def conectar_banco():
         database=os.getenv('DB_DATABASE')
     )
     return conexao
+
+# Inserir um cliente
+def adicionar_cliente(nome, email, telefone, endereco, cidade, estado, cep):
+    try:
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
+        sql = """
+        INSERT INTO clientes (nome, email, telefone, endereco, cidade, estado, cep)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        dados = (nome, email, telefone, endereco, cidade, estado, cep)
+        cursor.execute(sql, dados)
+        conexao.commit()
+        print("Cliente cadastrado com sucesso!")
+    except Exception as e:
+        print(f"Erro ao cadastrar cliente: {e}")
+    finally:
+        cursor.close()
+        conexao.close()
