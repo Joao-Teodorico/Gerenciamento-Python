@@ -18,6 +18,8 @@ def conectar_banco():
 
 # Inserir um cliente
 def adicionar_cliente(nome, email, telefone, endereco, cidade, estado, cep):
+    cursor = None
+    conexao = None
     try:
         conexao = conectar_banco()
         cursor = conexao.cursor()
@@ -32,33 +34,43 @@ def adicionar_cliente(nome, email, telefone, endereco, cidade, estado, cep):
     except Exception as e:
         print(f"Erro ao cadastrar cliente: {e}")
     finally:
-        cursor.close()
-        conexao.close()
+        if cursor:
+            cursor.close()
+        if conexao:
+            conexao.close()
 
 # Listar todos os clientes
 def listar_clientes():
+    conexao = None
     try:
         conexao = conectar_banco()
         df = pd.read_sql("SELECT * FROM clientes", conexao)
+        print("Clientes cadastrados:")
         print(df)
     except Exception as e:
         print(f"Erro ao listar clientes: {e}")
     finally:
-        conexao.close()
+        if conexao:
+            conexao.close()
 
 # Buscar cliente por nome
 def buscar_cliente_por_nome(nome):
+    conexao = None
     try:
         conexao = conectar_banco()
         df = pd.read_sql(f"SELECT * FROM clientes WHERE nome LIKE '%{nome}%'", conexao)
+        print(f"Busca por clientes com nome contendo '{nome}':")
         print(df)
     except Exception as e:
         print(f"Erro ao buscar cliente: {e}")
     finally:
-        conexao.close()
+        if conexao:
+            conexao.close()
 
 # Exemplo de uso:
-if _name_ == "_main_":
+if __name__ == "__main__":
+    print("Iniciando o script...")
+
     # Cadastrar um cliente (exemplo)
     adicionar_cliente(
         nome="João Silva",
@@ -75,3 +87,5 @@ if _name_ == "_main_":
 
     # Buscar cliente por nome
     buscar_cliente_por_nome("João")
+
+    print("Fim do script.")
